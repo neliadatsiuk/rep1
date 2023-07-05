@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int count_numbers_with_restrictions(int p) {
+    int dp[31][10] = {0}; // Масив dp розміром (p+1) × 10
+    // Ініціалізація базових значень
+    dp[1][5] = 1;
+    dp[1][9] = 1;
+    // Обчислення dp[i][j] для i = 2 до p
+    for (int i = 2; i <= p; i++) {
+        dp[i][5] = dp[i - 1][9] + dp[i - 1][5];
+        dp[i][9] = dp[i - 1][5] + dp[i - 1][9];
+    }
+    // Сумування всіх значень dp[p][j] для j = 0 до 9
+    int count = 0;
+    for (int j = 0; j < 10; j++) {
+        count += dp[p][j];
+    }
+    return count;
+}
+int main() {
+    int p;
+    printf("Введіть число p: ");
+    scanf("%d", &p);
+    int result = count_numbers_with_restrictions(p);
+    printf("Кількість чисел із %d розрядами: %d\n", p, result);
+    return 0;
+}
